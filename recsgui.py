@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+import NERecs as recs
 
 searchDetailsCol= [ 
             [sg.Text('Welcome to NERecs')],
@@ -25,7 +26,7 @@ def retrieveUserInput(num_input):
     queryInfo.update({'curr_location': values['location']})
     queryInfo.update({'distance': values['distance']})
     queryInfo.update({'search_term': values['query']})
-    print(num_input)
+    
     while num_input>=0:
         restHistory.append(values['-INPUT-' + str(num_input) +'-'])
         num_input-=1
