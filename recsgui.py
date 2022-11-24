@@ -45,9 +45,7 @@ while True:
         searchInfo, restInput= retrieveUserInput(inputCount)
         masterRestaurantDict={}
         temp_search_ids=recs.get_place_ids(searchInfo['search_term'], searchInfo['distance'], searchInfo['curr_location'])
-        # print('Search_ids:', temp_search_ids)
         user_ids=recs.get_user_ids(restInput)
-        # print('user ids:', user_ids)
         search_ids=[id for id in temp_search_ids if id not in user_ids]
         masterRestDf = recs.get_restaurant_data(search_ids)
         masterUserDf= recs.get_restaurant_data(user_ids)
@@ -59,7 +57,12 @@ while True:
 
         result=recs.tf_idf_vectorize(masterRestDf, masterUserDf)
         sim=recs.similarity_calc(result)
-        print(sim)
+        values=recs.extract_similarity(sim, len(user_ids))
+        final_recs=recs.get_sim_restaurants(masterRestDf, masterUserDf, values)
+        export_df=masterRestDf[masterRestDf['name'] in final_recs.keys()]
+        
+        print(final_recs)
+        
         break
 window.close()
 
